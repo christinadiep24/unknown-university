@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { userProgress, programs } from '@/lib/sample-data';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { BookOpen, Award, Flame, TrendingUp } from 'lucide-react';
 
 const weeklyData = [
