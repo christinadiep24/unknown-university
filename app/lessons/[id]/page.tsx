@@ -4,6 +4,12 @@ import { use, useState } from 'react';
 import { lessons } from '@/lib/sample-data';
 import { Send, RotateCw } from 'lucide-react';
 
+type TutorMessage = {
+  id: number;
+  type: 'bot' | 'user';
+  message: string;
+};
+
 export default function LessonPage({
   params,
 }: {
@@ -11,7 +17,7 @@ export default function LessonPage({
 }) {
   const { id } = use(params);
   const lesson = lessons.find((l) => l.id === id);
-  const [chatMessages, setChatMessages] = useState([
+  const [chatMessages, setChatMessages] = useState<TutorMessage[]>([
     {
       id: 1,
       type: 'bot' as const,
