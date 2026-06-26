@@ -1,12 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { lessons } from '@/lib/sample-data';
 import { Send, RotateCw } from 'lucide-react';
 
-export default function LessonPage({ params }: { params: { id: string } }) {
-  const lesson = lessons.find((l) => l.id === params.id);
-  const [chatMessages, setChatMessages] = useState([
+type TutorMessage = {
+  id: number;
+  type: 'bot' | 'user';
+  message: string;
+};
+
+export default function LessonPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  const lesson = lessons.find((l) => l.id === id);
+  const [chatMessages, setChatMessages] = useState<TutorMessage[]>([
     {
       id: 1,
       type: 'bot' as const,

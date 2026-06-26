@@ -7,9 +7,7 @@ const nextConfig = {
       'lh3.googleusercontent.com',
     ],
   },
-  experimental: {
-    typedRoutes: true,
-  },
+  typedRoutes: true,
 }
 
 module.exports = nextConfig

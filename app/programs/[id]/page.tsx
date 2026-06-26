@@ -1,17 +1,15 @@
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 import { courses, programs } from '@/lib/sample-data';
 import { ArrowRight, Play } from 'lucide-react';
 
-export default function ProgramDetailPage({
+export default async function ProgramDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const program = programs.find((p) => p.id === params.id);
-  const programCourses = courses.filter((c) => c.programId === params.id);
+  const { id } = await params;
+  const program = programs.find((p) => p.id === id);
+  const programCourses = courses.filter((c) => c.programId === id);
 
   if (!program) {
     return <div className="text-center py-20">Program not found</div>;
@@ -28,7 +26,7 @@ export default function ProgramDetailPage({
 
         <div className="flex gap-4 flex-wrap">
           <Link
-            href="/(auth)/register"
+            href="/register"
             className="px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition font-medium inline-flex items-center gap-2"
           >
             Enroll Now <ArrowRight className="w-4 h-4" />
@@ -57,7 +55,7 @@ export default function ProgramDetailPage({
                   </p>
                   <div className="flex gap-4 text-sm text-muted-foreground">
                     <span>{course.lessons} lessons</span>
-                    <span>•</span>
+                    <span>-</span>
                     <span>{course.duration}</span>
                   </div>
                 </div>

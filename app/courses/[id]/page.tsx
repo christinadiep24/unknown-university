@@ -1,12 +1,15 @@
-'use client';
-
 import { lessons, courses } from '@/lib/sample-data';
 import Link from 'next/link';
 import { CheckCircle2, Circle } from 'lucide-react';
 
-export default function CoursePage({ params }: { params: { id: string } }) {
-  const course = courses.find((c) => c.id === params.id);
-  const courseLessons = lessons.filter((l) => l.courseId === params.id);
+export default async function CoursePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const course = courses.find((c) => c.id === id);
+  const courseLessons = lessons.filter((l) => l.courseId === id);
 
   if (!course) {
     return <div className="text-center py-20">Course not found</div>;

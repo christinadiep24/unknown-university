@@ -3,6 +3,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { signUp } from '@/lib/supabase';
 
 export default function RegisterPage() {
@@ -19,9 +28,9 @@ export default function RegisterPage() {
     setError('');
 
     try {
-      const { data, error: signUpError } = await signUp(email, password, name);
+      const { error: signUpError } = await signUp(email, password, name);
       if (signUpError) throw signUpError;
-      router.push('/dashboard');
+      router.push('/');
     } catch (err) {
       setError((err as Error).message || 'Failed to create account');
     } finally {
@@ -30,71 +39,74 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-20">
-      <div className="max-w-md mx-auto">
-        <div className="bg-card border rounded-lg p-8">
-          <h1 className="text-2xl font-bold mb-2">Create Account</h1>
-          <p className="text-muted-foreground mb-8">Get started learning today</p>
+    <div className="container mx-auto px-4 py-16">
+      <div className="mx-auto max-w-md">
+        <Card>
+          <CardHeader>
+            <CardTitle>Create your campus pass</CardTitle>
+            <CardDescription>
+              Register with Supabase auth to join realtime rooms and presence.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
-              <div className="p-4 bg-destructive/10 text-destructive rounded-lg text-sm">
+              <div className="rounded-xl bg-destructive/10 p-4 text-sm text-destructive">
                 {error}
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2">Full Name</label>
-              <input
+              <label className="mb-2 block text-sm font-medium">Full Name</label>
+              <Input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="John Doe"
+                placeholder="Ada Lovelace"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Email</label>
-              <input
+              <label className="mb-2 block text-sm font-medium">Email</label>
+              <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="you@example.com"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Password</label>
-              <input
+              <label className="mb-2 block text-sm font-medium">Password</label>
+              <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="••••••••"
+                placeholder="password"
                 required
               />
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="w-full py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition font-medium disabled:opacity-50"
+              className="w-full"
             >
               {loading ? 'Creating account...' : 'Create Account'}
-            </button>
+            </Button>
           </form>
 
-          <p className="text-center text-sm text-muted-foreground mt-6">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/(auth)/login" className="text-primary hover:underline">
+            <Link href="/login" className="text-primary hover:underline">
               Sign In
             </Link>
           </p>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

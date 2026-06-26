@@ -1,118 +1,133 @@
 import Link from 'next/link';
-import { ArrowRight, Users, Award, Zap } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  Bot,
+  CalendarDays,
+  FlaskConical,
+  Sparkles,
+  UserCircle,
+  Users,
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { campusRooms } from '@/lib/campus-data';
+
+const roomIcons = {
+  Library: BookOpen,
+  'AI Room': Bot,
+  'Social Hub': Users,
+  'Startup Lab': FlaskConical,
+  'Events Hall': CalendarDays,
+  'Profile Space': UserCircle,
+};
 
 export default function Home() {
   return (
-    <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-primary/10 to-background py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Welcome to Unknown University
+    <div className="container mx-auto px-4 py-10 md:py-16">
+      <section className="mb-12 overflow-hidden rounded-[2rem] border bg-card p-6 shadow-sm md:p-10">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div>
+            <Badge className="mb-5" variant="success">
+              <Sparkles className="mr-1 h-3 w-3" />
+              2D campus MVP
+            </Badge>
+            <h1 className="max-w-4xl text-5xl font-bold tracking-tight md:text-7xl">
+              Unknown Metaverse is your online campus.
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Learn cutting-edge technologies with industry experts. Master web
-              development, AI, data science, and cloud architecture.
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">
+              Move between rooms for courses, AI help, realtime community,
+              startup projects, events, and your portfolio. It is Notion-clean,
+              Discord-live, and Coursera-practical without 3D complexity yet.
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
+            <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                href="/programs"
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition font-medium inline-flex items-center gap-2"
+                href="/social"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"
               >
-                Explore Programs <ArrowRight className="w-4 h-4" />
+                Enter campus <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/(auth)/login"
-                className="px-8 py-3 border rounded-lg hover:bg-secondary transition font-medium"
+                href="/library"
+                className="inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-sm font-medium transition hover:bg-secondary"
               >
-                Sign In
+                Browse Library
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">Why Choose Us?</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg border hover:border-primary transition">
-              <Award className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Expert Instruction</h3>
-              <p className="text-muted-foreground">
-                Learn from industry professionals with years of experience
-              </p>
-            </div>
-            <div className="p-6 rounded-lg border hover:border-primary transition">
-              <Zap className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Hands-On Learning</h3>
-              <p className="text-muted-foreground">
-                Build real projects and gain practical experience
-              </p>
-            </div>
-            <div className="p-6 rounded-lg border hover:border-primary transition">
-              <Users className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Community Support</h3>
-              <p className="text-muted-foreground">
-                Connect with thousands of learners and get help when needed
-              </p>
+          <div className="rounded-[1.5rem] border bg-background/70 p-4">
+            <div className="grid grid-cols-2 gap-3">
+              {campusRooms.slice(0, 4).map((room) => (
+                <div
+                  key={room.href}
+                  className="rounded-2xl border bg-card p-4 shadow-sm"
+                >
+                  <div
+                    className={`mb-4 h-2 rounded-full bg-gradient-to-r ${room.accent}`}
+                  />
+                  <p className="text-sm font-medium">{room.name}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {room.activity}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Programs Preview Section */}
-      <section className="py-20 bg-secondary/50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Popular Programs
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              'Web Development',
-              'AI & ML',
-              'Data Science',
-              'Cloud Architecture',
-            ].map((program) => (
-              <div
-                key={program}
-                className="p-6 rounded-lg bg-background border hover:border-primary transition cursor-pointer"
-              >
-                <h3 className="font-semibold mb-2">{program}</h3>
-                <p className="text-sm text-muted-foreground">Learn more</p>
-              </div>
-            ))}
+      <section>
+        <div className="mb-6 flex flex-col justify-between gap-3 md:flex-row md:items-end">
+          <div>
+            <Badge variant="outline">Campus map</Badge>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+              Choose a room
+            </h2>
           </div>
-          <div className="text-center mt-12">
-            <Link
-              href="/programs"
-              className="inline-flex items-center gap-2 text-primary font-medium hover:underline"
-            >
-              View All Programs <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Start Learning?
-          </h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Join thousands of students already learning with Unknown University
+          <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+            Every room is a regular Next.js route today, designed so richer 2D
+            movement and spatial interactions can be layered on later.
           </p>
-          <Link
-            href="/(auth)/register"
-            className="inline-block px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition font-medium"
-          >
-            Get Started Now
-          </Link>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {campusRooms.map((room) => {
+            const Icon = roomIcons[room.name as keyof typeof roomIcons];
+
+            return (
+              <Link key={room.href} href={room.href} className="group">
+                <Card className="h-full overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl">
+                  <div className={`h-2 bg-gradient-to-r ${room.accent}`} />
+                  <CardHeader>
+                    <div className="mb-5 flex items-center justify-between">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary">
+                        <Icon className="h-6 w-6 text-primary" />
+                      </div>
+                      <Badge variant="secondary">{room.status}</Badge>
+                    </div>
+                    <CardTitle>{room.name}</CardTitle>
+                    <CardDescription>{room.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between rounded-2xl bg-secondary/60 p-4 text-sm">
+                      <span className="text-muted-foreground">
+                        {room.activity}
+                      </span>
+                      <span className="font-medium">{room.members} members</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
         </div>
       </section>
-    </>
+    </div>
   );
 }
