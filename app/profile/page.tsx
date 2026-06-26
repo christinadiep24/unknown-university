@@ -1,160 +1,117 @@
-'use client';
-
-import { useState } from 'react';
-import { userProfile, userProgress } from '@/lib/sample-data';
-import { Mail, MapPin, Globe, Edit2 } from 'lucide-react';
+import { BadgeCheck, ExternalLink, MapPin, Trophy } from 'lucide-react';
+import { RoomHeader } from '@/components/room-header';
+import { Badge } from '@/components/ui/badge';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { profilePortfolio } from '@/lib/campus-data';
 
 export default function ProfilePage() {
-  const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState(userProfile);
-
   return (
-    <div className="container mx-auto px-4 py-12">
-      <div className="max-w-2xl mx-auto">
-        {/* Profile Header */}
-        <div className="border rounded-lg p-8 mb-8">
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center gap-6">
-              <div
-                className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-blue-600"
-                style={{
-                  backgroundImage: `url(${profile.avatar})`,
-                  backgroundSize: 'cover',
-                }}
-              />
-              <div>
-                <h1 className="text-3xl font-bold">{profile.name}</h1>
-                <p className="text-muted-foreground">{profile.bio}</p>
-              </div>
-            </div>
-            <button
-              onClick={() => setIsEditing(!isEditing)}
-              className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-secondary transition"
-            >
-              <Edit2 className="w-4 h-4" />
-              Edit Profile
-            </button>
-          </div>
+    <div className="container mx-auto px-4 py-10">
+      <RoomHeader
+        eyebrow="Profile Space"
+        title="Identity and portfolio"
+        description="A personal campus space for progress, projects, links, and proof of work. Supabase profiles can later replace this sample portfolio."
+        status="Portfolio ready"
+      />
 
-          {/* Contact Info */}
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Mail className="w-4 h-4" />
-              <span className="text-sm">{profile.email}</span>
+      <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
+        <Card>
+          <CardHeader className="items-center text-center">
+            <div className="flex h-28 w-28 items-center justify-center rounded-[2rem] bg-gradient-to-br from-blue-500 to-cyan-400 text-4xl font-bold text-white shadow-xl shadow-blue-500/20">
+              {profilePortfolio.name
+                .split(' ')
+                .map((part) => part[0])
+                .join('')}
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <MapPin className="w-4 h-4" />
-              <span className="text-sm">{profile.location}</span>
+            <div>
+              <CardTitle>{profilePortfolio.name}</CardTitle>
+              <CardDescription>{profilePortfolio.role}</CardDescription>
             </div>
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Globe className="w-4 h-4" />
-              <a href={profile.website} className="text-sm text-primary hover:underline">
-                View Website
-              </a>
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <MapPin className="h-4 w-4" />
+              {profilePortfolio.location}
             </div>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-6 text-sm leading-6 text-muted-foreground">
+              {profilePortfolio.bio}
+            </p>
+            <div className="grid grid-cols-3 gap-3">
+              {profilePortfolio.stats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl bg-secondary/60 p-4 text-center"
+                >
+                  <p className="text-2xl font-semibold">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Portfolio projects</CardTitle>
+              <CardDescription>
+                Proof-of-work cards that can link back to rooms and coursework.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-3 md:grid-cols-3">
+              {profilePortfolio.projects.map((project) => (
+                <div
+                  key={project}
+                  className="rounded-2xl border bg-background p-5"
+                >
+                  <BadgeCheck className="mb-4 h-5 w-5 text-primary" />
+                  <p className="font-medium">{project}</p>
+                </div>
+              ))}
+            </CardContent>
+          </Card>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle>Campus badges</CardTitle>
+                <CardDescription>Achievements earned across rooms.</CardDescription>
+              </CardHeader>
+              <CardContent className="flex flex-wrap gap-2">
+                {profilePortfolio.badges.map((badge) => (
+                  <Badge key={badge} variant="success">
+                    <Trophy className="mr-1 h-3 w-3" />
+                    {badge}
+                  </Badge>
+                ))}
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle>Links</CardTitle>
+                <CardDescription>Portfolio and social proof.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {profilePortfolio.links.map((link) => (
+                  <div
+                    key={link}
+                    className="flex items-center justify-between rounded-2xl border bg-background p-4 text-sm"
+                  >
+                    <span>{link}</span>
+                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                  </div>
+                ))}
+              </CardContent>
+            </Card>
           </div>
         </div>
-
-        {/* Stats */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="border rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Learning Stats</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Courses Enrolled</span>
-                <span className="font-semibold">{userProgress.totalCoursesEnrolled}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Completed</span>
-                <span className="font-semibold">{userProgress.completedCourses}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Lessons Completed</span>
-                <span className="font-semibold">{userProgress.totalLessonsCompleted}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Average Grade</span>
-                <span className="font-semibold">{userProgress.averageGrade}%</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="border rounded-lg p-6">
-            <h3 className="text-lg font-semibold mb-4">Activity</h3>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Current Streak</span>
-                <span className="font-semibold">{userProgress.currentStreak} days</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Join Date</span>
-                <span className="font-semibold">{profile.joinDate}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Assignments Submitted</span>
-                <span className="font-semibold">
-                  {userProgress.submittedAssignments}/{userProgress.totalAssignments}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Edit Form */}
-        {isEditing && (
-          <div className="border rounded-lg p-6 mb-8 bg-secondary/50">
-            <h3 className="text-lg font-semibold mb-4">Edit Profile</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-2">Name</label>
-                <input
-                  type="text"
-                  value={profile.name}
-                  onChange={(e) =>
-                    setProfile({ ...profile, name: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Bio</label>
-                <textarea
-                  value={profile.bio}
-                  onChange={(e) =>
-                    setProfile({ ...profile, bio: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
-                  rows={3}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Location</label>
-                <input
-                  type="text"
-                  value={profile.location}
-                  onChange={(e) =>
-                    setProfile({ ...profile, location: e.target.value })
-                  }
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-              <div className="flex gap-2 justify-end">
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 border rounded-lg hover:bg-secondary transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

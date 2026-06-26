@@ -6,6 +6,8 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.6%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.6%;
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96%;
@@ -27,6 +29,8 @@
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
+    --card: 222.2 47.4% 7.4%;
+    --card-foreground: 210 40% 98%;
     --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.6% 11.2%;
     --secondary: 217.2 32.6% 17.5%;
@@ -49,6 +53,11 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    @apply bg-primary/20;
   }
 }
